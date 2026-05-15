@@ -4,6 +4,9 @@ public:
         int left = 0;
         int right = nums.size() - 1;
         int ans = INT_MAX;
+        if(nums[left] <= nums[right]){
+            return nums[left];
+        }
         while(left <= right) {
             int mid = (left + right) / 2;
             ans = min(ans,nums[mid]);
