@@ -11,21 +11,30 @@
  */
 class Solution {
 public:
+    int leftHeight(TreeNode* node) {
+        int h = 0;
+        while(node) {
+            h++;
+            node = node->left;
+        }
+        return h;
+    }
+    int rightHeight(TreeNode* node) {
+        int h = 0;
+        while(node) {
+            h++;
+            node = node->right;
+        }
+        return h;
+    }
     int countNodes(TreeNode* root) {
         if(root == nullptr) return 0;
-        queue<TreeNode*> q;
-        q.push(root);
-        int ans = 0;
-        while(!q.empty()) {
-            int size = q.size();
-            for(int i=0;i<size;i++) {
-                TreeNode* node = q.front();
-                q.pop();
-                ans++;
-                if(node->left != nullptr) q.push(node->left);
-                if(node->right != nullptr) q.push(node->right);
-            }
-        }
-        return ans;
+
+        int left = leftHeight(root);
+        int right = rightHeight(root);
+
+        if(left == right) return ((1<<left) - 1);
+
+        return 1 + countNodes(root->left) + countNodes(root->right);
     }
 };
