@@ -1,33 +1,19 @@
 class Solution {
 public:
+    int solve(vector<int>& start1,vector<int>& duration1,vector<int>& start2,vector<int>& duration2) {
+        int finish1 = INT_MAX;
+        for(int i=0;i<start1.size();i++) {
+            finish1 = min(finish1,(start1[i] + duration1[i]));
+        }
+        int finish2 = INT_MAX;
+        for(int i=0;i<start2.size();i++) {
+            finish2 = min(finish2,(max(finish1,start2[i]) + duration2[i]));
+        }
+        return finish2;
+    }
     int earliestFinishTime(vector<int>& ls, vector<int>& ld, vector<int>& ws, vector<int>& wd) {
-        int n = ls.size();
-        int m = ws.size();
-        int ans = INT_MAX;
-        for(int i=0;i<n;i++) {
-            for(int j=0;j<m;j++) {
-                int time = ls[i] + ld[i];
-                if(time < ws[j]) {
-                    time = ws[j] + wd[j];
-                }
-                else{
-                    time = time + wd[j];
-                }
-                ans = min(time,ans);
-            }
-        }
-        for(int i=0;i<m;i++) {
-            for(int j=0;j<n;j++) {
-                int time = ws[i] + wd[i];
-                if(time < ls[j]) {
-                    time = ls[j] + ld[j];
-                }
-                else{
-                    time = time + ld[j];
-                }
-                ans = min(time,ans);
-            }
-        }
-        return ans;
+        int water_land = solve(ls,ld,ws,wd);
+        int land_water = solve(ws,wd,ls,ld);
+        return min(water_land,land_water);
     }
 };
