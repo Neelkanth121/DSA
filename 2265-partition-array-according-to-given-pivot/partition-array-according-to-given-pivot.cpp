@@ -15,12 +15,15 @@ public:
         for(int i=0;i<less.size();i++) {
             ans.push_back(less[i]);
         }
+        less.clear();
         for(int i=0;i<equal.size();i++) {
             ans.push_back(equal[i]);
         }
+        equal.clear();
         for(int i=0;i<greater.size();i++) {
             ans.push_back(greater[i]);
         }
+        greater.clear();
         return ans;
     }
 };
