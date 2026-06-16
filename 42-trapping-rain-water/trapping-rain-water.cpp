@@ -1,39 +1,23 @@
 class Solution {
 public:
-    void nextGreaterElement(vector<int>& height,vector<int>& next) {
-        stack<int> st;
-        for(int i=height.size() - 1;i>=0;i--) {
-            while((!st.empty()) && (st.top() <= height[i])) st.pop();
-            if(st.empty()) next[i] = -1;
-            else{
-                next[i] = st.top();
-            }
-            if((!st.empty()) && (st.top() < height[i])) st.push(height[i]);
-            if(st.empty()) st.push(height[i]);
-        }
-    }
-    void lastGreaterElement(vector<int>& height,vector<int>& next) {
-        stack<int> st;
-        for(int i=0;i<height.size();i++) {
-            while((!st.empty()) && (st.top() <= height[i])) st.pop();
-            if(st.empty()) next[i] = -1;
-            else{
-                next[i] = st.top();
-            }
-            if((!st.empty()) && (st.top() < height[i])) st.push(height[i]);
-            if(st.empty()) st.push(height[i]);
-        }
-    }
     int trap(vector<int>& height) {
-        vector<int> next(height.size(),0);
-        vector<int> last(height.size(),0);
-        nextGreaterElement(height,next);
-        lastGreaterElement(height,last);
+        int n = height.size();
+        vector<int> leftmax(n,0);
+        vector<int> rightmax(n,0);
+        
+        leftmax[0] = height[0];
+        for(int i=1;i<n;i++) {
+            leftmax[i] = max(leftmax[i - 1],height[i]);
+        }
+
+        rightmax[n - 1] = height[n - 1];
+        for(int i=n-2;i>=0;i--) {
+            rightmax[i] = max(rightmax[i + 1],height[i]);
+        }
+
         int result = 0;
-        for(int i=0;i<height.size();i++) {
-            if(next[i] == -1 || last[i] == -1) continue;
-            int a = min(last[i],next[i]);
-            result = result + (a - height[i]);
+        for(int i=0;i<n;i++) {
+            result = result + min(rightmax[i],leftmax[i]) - height[i];
         }
         return result;
     }
