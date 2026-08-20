@@ -16,6 +16,6 @@ public:
 
         int notpick = helper(index+1,check,prices,dp);
 
-        return dp[index][check] = max(0,max(pick,notpick));
+        return dp[index][check] = max(pick,notpick);
     }
 };
